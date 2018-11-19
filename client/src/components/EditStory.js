@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentStory } from '../actions/storiesAction';
+import { getCurrentStory, updateStory } from '../actions/storiesAction';
 import CKEditor from 'react-ckeditor-component';
 
 export class EditStory extends Component {
@@ -43,19 +43,31 @@ export class EditStory extends Component {
 		console.log('afterPaste event called with event info: ', evt);
 	}
 
+	saveChangesHandler = (id, storyData) => {
+		this.props.updateStory(id, storyData);
+		this.props.history.push(`/stories/${id}`);
+	};
+
 	render() {
 		const id = this.props.match.params.id;
 		const { title, body, published } = this.state;
+		let bodyTemp = body;
 		return (
 			<div className="container">
 				<h1>Edit Story</h1>
 				<div className="input-field" style={{ width: '50%', marginBottom: '2rem' }}>
-					<input id="title" value={title ? title : ''} type="text" onChange={this.onTextChange} />
+					<input
+						id="title"
+						value={title ? title : ''}
+						type="text"
+						placeholder="Placeholder"
+						onChange={this.onTextChange}
+					/>
 					<label htmlFor="title">Title</label>
 				</div>
 				<CKEditor
 					activeClass="p10"
-					content={body}
+					content={bodyTemp}
 					events={{
 						blur: this.onBlur,
 						afterPaste: this.afterPaste,
@@ -74,7 +86,13 @@ export class EditStory extends Component {
 						Publish
 					</label>
 				</div>
-
+				<button
+					style={{ marginTop: '2rem' }}
+					onClick={() => this.saveChangesHandler(id, { title, body, published })}
+					className="btn waves-effect waves-light light-blue lighten-2"
+				>
+					Save Changes
+				</button>
 				<div dangerouslySetInnerHTML={{ __html: this.state.body }} />
 			</div>
 		);
@@ -85,4 +103,4 @@ const mapStateToProps = (state) => ({
 	story: state.stories.currentStory
 });
 
-export default connect(mapStateToProps, { getCurrentStory })(EditStory);
+export default connect(mapStateToProps, { getCurrentStory, updateStory })(EditStory);

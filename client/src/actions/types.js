@@ -8,3 +8,4 @@ export const GET_CURRENT_STORY = 'GET_CURRENT_STORY';
 export const CREATE_STORY = 'CREATE-STORY';
 export const CLEAR_STORY = 'CLEAR_STORY';
 export const DELETE_STORY = 'DELETE_STORY';
+export const UPDATE_STORY = 'UPDATE_STORY';

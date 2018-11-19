@@ -7,7 +7,8 @@ import {
 	CLEAR_ERRORS,
 	CREATE_STORY,
 	CLEAR_STORY,
-	DELETE_STORY
+	DELETE_STORY,
+	UPDATE_STORY
 } from './types';
 
 export const getStories = () => (dispatch) => {
@@ -56,6 +57,15 @@ export const deleteStory = (id) => (dispatch) => {
 			});
 		})
 		.catch((err) => console.log(err));
+};
+
+export const updateStory = (id, storyData) => (dispatch) => {
+	axios.post(`/api/stories/${id}`, { ...storyData }).then((res) => {
+		dispatch({
+			type: UPDATE_STORY,
+			payload: res.data
+		});
+	});
 };
 
 export const clearStory = () => (dispatch) => {

@@ -34,7 +34,7 @@ export class Stories extends Component {
 					>
 						Create New
 					</Link>
-					<div style={{ marginTop: '2rem' }} className="row">
+					<div style={{ marginTop: '2rem', width: '100%' }} className="row">
 						{stories}
 					</div>
 				</div>

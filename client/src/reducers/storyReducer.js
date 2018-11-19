@@ -1,4 +1,11 @@
-import { GET_CURRENT_STORY, GET_STORIES, CREATE_STORY, CLEAR_STORY, DELETE_STORY } from '../actions/types';
+import {
+	GET_CURRENT_STORY,
+	GET_STORIES,
+	CREATE_STORY,
+	CLEAR_STORY,
+	DELETE_STORY,
+	UPDATE_STORY
+} from '../actions/types';
 
 const initialState = {
 	stories: [],
@@ -31,6 +38,11 @@ export default function(state = initialState, action) {
 			console.log(action.payload);
 			return {
 				...state
+			};
+		case UPDATE_STORY:
+			return {
+				...state,
+				currentStory: action.payload
 			};
 		default:
 			return state;
