@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
-import CKEditor from 'react-ckeditor-component';
 import { connect } from 'react-redux';
-import { createStory } from '../actions/storiesAction';
+import { getCurrentStory } from '../actions/storiesAction';
+import CKEditor from 'react-ckeditor-component';
 
-export class AddStory extends Component {
+export class EditStory extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { title: '', body: '', published: false };
 		this.updateContent = this.updateContent.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { title, body, published } = nextProps.story;
+		this.setState({ title, body, published });
+	}
+
+	componentDidMount() {
+		const id = this.props.match.params.id;
+		this.props.getCurrentStory(id);
 	}
 
 	onCheckboxChange = () => {
@@ -33,27 +43,19 @@ export class AddStory extends Component {
 		console.log('afterPaste event called with event info: ', evt);
 	}
 
-	onSubmitHandler = () => {
-		const { title, body, published } = this.state;
-		const newStory = published ? { title, body, published } : { title, body };
-		this.props.createStory(newStory);
-	};
-
 	render() {
-		if (!this.props.auth.isAuthenticated) {
-			this.props.history.push('/stories');
-			return <div />;
-		}
+		const id = this.props.match.params.id;
+		const { title, body, published } = this.state;
 		return (
 			<div className="container">
-				<h1>Add Story</h1>
+				<h1>Edit Story</h1>
 				<div className="input-field" style={{ width: '50%', marginBottom: '2rem' }}>
-					<input id="title" type="text" onChange={this.onTextChange} />
+					<input id="title" value={title ? title : ''} type="text" onChange={this.onTextChange} />
 					<label htmlFor="title">Title</label>
 				</div>
 				<CKEditor
 					activeClass="p10"
-					content={this.state.body}
+					content={body}
 					events={{
 						blur: this.onBlur,
 						afterPaste: this.afterPaste,
@@ -62,19 +64,16 @@ export class AddStory extends Component {
 				/>
 				<div className="switch" style={{ marginTop: '2rem' }}>
 					<label>
-						<input type="checkbox" checked={this.state.published} onChange={this.onCheckboxChange} />
+						<input
+							type="checkbox"
+							value={this.state.published}
+							checked={published ? published : false}
+							onChange={this.onCheckboxChange}
+						/>
 						<span className="lever" />
 						Publish
 					</label>
 				</div>
-
-				<button
-					style={{ marginTop: '2rem' }}
-					className="btn waves-effect waves-light light-blue lighten-2"
-					onClick={this.onSubmitHandler}
-				>
-					Create Story
-				</button>
 
 				<div dangerouslySetInnerHTML={{ __html: this.state.body }} />
 			</div>
@@ -83,7 +82,7 @@ export class AddStory extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	auth: state.auth
+	story: state.stories.currentStory
 });
 
-export default connect(mapStateToProps, { createStory })(AddStory);
+export default connect(mapStateToProps, { getCurrentStory })(EditStory);

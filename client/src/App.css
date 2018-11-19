@@ -1,1 +1,46 @@
+.story {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: url('./assets/story-cover.jpg');
+	margin: 0 10px;
+	height: 300px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	box-shadow: 3px 3px rgba(0, 0, 0, 0.5);
+}
 
+.story > h4 {
+	font-size: 2vw;
+	color: black;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.single-story {
+	text-align: center;
+}
+
+.single-story > h3 {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	text-decoration: underline;
+}
+
+.single-story > .story-content {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 20px;
+}
+
+@media (max-width: 600px) {
+	.story {
+		margin: 10px auto;
+	}
+	.story > h4 {
+		font-size: 4vw;
+	}
+}
+
+@media (min-width: 2000px) {
+	.story > h4 {
+		font-size: 1.5vw;
+	}
+}

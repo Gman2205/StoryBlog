@@ -1,5 +1,4 @@
-import { GET_CURRENT_STORY, GET_STORIES, CREATE_STORY } from '../actions/types';
-import axios from 'axios';
+import { GET_CURRENT_STORY, GET_STORIES, CREATE_STORY, CLEAR_STORY, DELETE_STORY } from '../actions/types';
 
 const initialState = {
 	stories: [],
@@ -18,7 +17,17 @@ export default function(state = initialState, action) {
 				...state,
 				currentStory: { ...action.payload }
 			};
+		case CLEAR_STORY:
+			return {
+				...state,
+				currentStory: {}
+			};
 		case CREATE_STORY:
+			console.log(action.payload);
+			return {
+				...state
+			};
+		case DELETE_STORY:
 			console.log(action.payload);
 			return {
 				...state

@@ -17,7 +17,7 @@ export class Stories extends Component {
 		const stories = this.state.stories.map((book, i) => {
 			return (
 				<Link to={`/stories/${book._id}`} key={book._id}>
-					<div className="col m4 s12">
+					<div className="col m3 s7 offset-s2 story">
 						<h4>{book.title}</h4>
 					</div>
 				</Link>

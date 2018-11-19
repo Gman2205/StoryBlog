@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentStory } from '../actions/storiesAction';
+import { getCurrentStory, clearStory, deleteStory } from '../actions/storiesAction';
 
 export class Book extends Component {
-	componentDidMount() {
+	componentWillMount() {
 		const storyId = this.props.match.params.id;
 		this.props.getCurrentStory(storyId);
 	}
+	componentWillUnmount() {
+		this.props.clearStory();
+	}
+
+	onStoryDelete = (id) => {
+		this.props.deleteStory(id);
+		this.props.history.push('/stories');
+	};
+
 	render() {
-		const storyId = this.props.match.params.id;
 		const { story } = this.props;
+		const storyId = this.props.match.params.id;
 		return (
-			<div className="container">
-				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
-					<button className="btn light-blue" style={{}}>
+			<div style={{ marginTop: '1rem' }} className="container single-story">
+				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+					<button
+						onClick={() => this.props.history.push(`/stories/edit/${storyId}`)}
+						className="btn light-blue"
+					>
 						Edit
 					</button>
-					<button className="btn red" style={{}}>
+					<button onClick={this.onStoryDelete.bind(this, storyId)} className="btn red">
 						Delete
 					</button>
 				</div>
 
-				<h1>{story.title}</h1>
-				<p>{story.body}</p>
+				<h3>{story.title}</h3>
+				<div dangerouslySetInnerHTML={{ __html: story.body }} className="story-content" />
 			</div>
 		);
 	}
@@ -32,4 +44,4 @@ const mapStateToProps = (state) => ({
 	story: state.stories.currentStory
 });
 
-export default connect(mapStateToProps, { getCurrentStory })(Book);
+export default connect(mapStateToProps, { getCurrentStory, clearStory, deleteStory })(Book);

@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-import { GET_STORIES, GET_CURRENT_STORY, GET_ERRORS, CLEAR_ERRORS, CREATE_STORY } from './types';
+import {
+	GET_STORIES,
+	GET_CURRENT_STORY,
+	GET_ERRORS,
+	CLEAR_ERRORS,
+	CREATE_STORY,
+	CLEAR_STORY,
+	DELETE_STORY
+} from './types';
 
 export const getStories = () => (dispatch) => {
 	axios
@@ -36,4 +44,22 @@ export const createStory = (storyData) => (dispatch) => {
 			});
 		})
 		.catch((err) => console.log(err));
+};
+
+export const deleteStory = (id) => (dispatch) => {
+	axios
+		.delete(`/api/stories/${id}`)
+		.then((res) => {
+			dispatch({
+				type: DELETE_STORY,
+				payload: res.data
+			});
+		})
+		.catch((err) => console.log(err));
+};
+
+export const clearStory = () => (dispatch) => {
+	dispatch({
+		type: CLEAR_STORY
+	});
 };

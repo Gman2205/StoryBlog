@@ -6,6 +6,7 @@ import Login from './Login';
 import Stories from './Stories';
 import Book from './Book';
 import AddStory from './AddStory';
+import EditStory from './EditStory';
 
 function Main() {
 	return (
@@ -13,6 +14,7 @@ function Main() {
 			<Switch>
 				<Route path="/login" component={Login} />
 				<Route path="/stories/new" component={AddStory} />
+				<Route path="/stories/edit/:id" component={EditStory} />
 				<Route path="/stories/:id" render={(props) => <Book {...props} />} /> />
 				<Route path="/stories" component={Stories} />
 				<Route path="/" component={Home} />
